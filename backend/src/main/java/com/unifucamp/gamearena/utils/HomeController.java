@@ -1,4 +1,4 @@
-package com.unifucamp.gamearena.controller;
+package com.unifucamp.gamearena.utils;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
