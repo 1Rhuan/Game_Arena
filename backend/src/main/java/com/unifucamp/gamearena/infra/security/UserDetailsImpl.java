@@ -1,6 +1,6 @@
-package com.unifucamp.gamearena.security;
+package com.unifucamp.gamearena.infra.security;
 
-import com.unifucamp.gamearena.entity.User;
+import com.unifucamp.gamearena.usuario.domain.usuario;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,15 +10,15 @@ import java.util.stream.Collectors;
 
 public class UserDetailsImpl implements UserDetails {
 
-    private final User user;
+    private final usuario usuario;
 
-    public UserDetailsImpl(User user) {
-        this.user = user;
+    public UserDetailsImpl(usuario usuario) {
+        this.usuario = usuario;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getRoles()
+        return usuario.getRoles()
                 .stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName().name()))
                 .collect(Collectors.toList());
@@ -26,11 +26,11 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return usuario.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return usuario.getEmail();
     }
 }
