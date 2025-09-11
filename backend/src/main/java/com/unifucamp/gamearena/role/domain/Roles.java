@@ -1,4 +1,4 @@
-package com.unifucamp.gamearena.enums;
+package com.unifucamp.gamearena.role.domain;
 
 public enum Roles {
     ROLE_USER,

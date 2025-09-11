@@ -1,12 +1,14 @@
-package com.unifucamp.gamearena.entity;
+package com.unifucamp.gamearena.usuario.domain;
 
 import jakarta.persistence.*;
 
 import java.util.List;
 
+import com.unifucamp.gamearena.role.domain.Role;
+
 @Entity
 @Table(name = "users")
-public class User {
+public class usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -18,14 +20,13 @@ public class User {
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name="users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name= "role_id"))
+    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
 
-    public User() {}
+    public usuario() {
+    }
 
-    public User(String email, String password, List<Role> roles) {
+    public usuario(String email, String password, List<Role> roles) {
         this.email = email;
         this.password = password;
         this.roles = roles;
@@ -59,4 +60,3 @@ public class User {
         this.roles = roles;
     }
 }
-

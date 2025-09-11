@@ -1,10 +1,9 @@
-package com.unifucamp.gamearena.entity;
+package com.unifucamp.gamearena.role.domain;
 
-import com.unifucamp.gamearena.enums.Roles;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name= "roles")
+@Table(name = "roles")
 public class Role {
 
     @Id
@@ -38,4 +37,3 @@ public class Role {
         this.name = name;
     }
 }
-

@@ -1,8 +1,6 @@
-package com.unifucamp.gamearena.service;
+package com.unifucamp.gamearena.role.domain;
 
-import com.unifucamp.gamearena.entity.Role;
-import com.unifucamp.gamearena.enums.Roles;
-import com.unifucamp.gamearena.repository.RoleRepository;
+import com.unifucamp.gamearena.role.RoleRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -23,7 +21,8 @@ public class RoleService {
                     Role role = new Role();
                     role.setName(roleName);
                     return roleRepository.save(role);
-                });    }
+                });
+    }
 
     public List<Role> findRoles(Roles... roleNames) {
         return Arrays.stream(roleNames)
