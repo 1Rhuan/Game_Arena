@@ -1,5 +1,6 @@
-package com.unifucamp.gamearena.participante.domain;
+package com.unifucamp.gamearena.comprovante.domain;
 
+import com.unifucamp.gamearena.participante.domain.Participante;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -24,11 +25,11 @@ public class Comprovante {
     @Column(name = "caminho_arquivo")
     private String caminho;
 
+    @Column(name = "data_cricao")
     @CreationTimestamp
     private LocalDateTime criadoEm;
 
-    @OneToOne
-    @JoinColumn(name = "participante_id")
+    @OneToOne(mappedBy = "comprovante")
     private Participante participante;
 
     public Long getId() {
