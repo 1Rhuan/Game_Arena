@@ -1,5 +1,6 @@
 package com.unifucamp.gamearena.participante.domain;
 
+import com.unifucamp.gamearena.comprovante.domain.Comprovante;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -13,12 +14,13 @@ public class Participante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String nome;
+    @Column(name = "nome_completo", nullable = false)
+    private String nomeCompleto;
 
+    @Column(name = "apelido")
     private String apelido;
 
-    @Column(length = 150, nullable = false)
+    @Column(name = "email", length = 150, nullable = false)
     private String email;
 
     @Column(name = "data_nascimento", nullable = false)
@@ -27,10 +29,11 @@ public class Participante {
     @Column(name = "aceitou_termos", nullable = false)
     private boolean aceitouTermos;
 
+    @Column(name = "status_pagamento")
     @Enumerated(EnumType.STRING)
-    private StatusPagamento status;
+    private StatusPagamento statusPagamento;
 
-    @Column(nullable = false)
+    @Column(name = "ativo", nullable = false)
     private boolean ativo;
 
     @CreationTimestamp
@@ -40,20 +43,21 @@ public class Participante {
     @Column(name = "data_atualizacao")
     private LocalDateTime atualizadoEm;
 
-    @OneToOne(mappedBy = "participante", cascade = CascadeType.ALL)
+    @OneToOne(fetch =  FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "comprovante_id")
     private Comprovante comprovante;
 
     public Participante() {
     }
 
-    public Participante(Long id, String nome, String apelido, String email, LocalDate dataNascimento, boolean aceitouTermos, StatusPagamento status, boolean ativo, LocalDateTime criadoEm, LocalDateTime atualizadoEm, Comprovante comprovante) {
+    public Participante(Long id, String nomeCompleto, String apelido, String email, LocalDate dataNascimento, boolean aceitouTermos, StatusPagamento statusPagamento, boolean ativo, LocalDateTime criadoEm, LocalDateTime atualizadoEm, Comprovante comprovante) {
         this.id = id;
-        this.nome = nome;
+        this.nomeCompleto = nomeCompleto;
         this.apelido = apelido;
         this.email = email;
         this.dataNascimento = dataNascimento;
         this.aceitouTermos = aceitouTermos;
-        this.status = status;
+        this.statusPagamento = statusPagamento;
         this.ativo = ativo;
         this.criadoEm = criadoEm;
         this.atualizadoEm = atualizadoEm;
@@ -64,12 +68,12 @@ public class Participante {
         return id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getNomeCompleto() {
+        return nomeCompleto;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNomeCompleto(String nomeCompleto) {
+        this.nomeCompleto = nomeCompleto;
     }
 
     public String getApelido() {
@@ -104,12 +108,12 @@ public class Participante {
         this.aceitouTermos = aceitouTermos;
     }
 
-    public StatusPagamento getStatus() {
-        return status;
+    public StatusPagamento getStatusPagamento() {
+        return statusPagamento;
     }
 
-    public void setStatus(StatusPagamento status) {
-        this.status = status;
+    public void setStatusPagamento(StatusPagamento statusPagamento) {
+        this.statusPagamento = statusPagamento;
     }
 
     public boolean isAtivo() {
