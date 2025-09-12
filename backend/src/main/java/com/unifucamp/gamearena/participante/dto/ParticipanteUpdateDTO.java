@@ -3,18 +3,13 @@ package com.unifucamp.gamearena.participante.dto;
 import com.unifucamp.gamearena.participante.domain.StatusPagamento;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
-public record ParticipanteResponseDTO(
-        Long id,
+public record ParticipanteUpdateDTO(
         String nomeCompleto,
         String apelido,
         String email,
-        StatusPagamento statusPagamento,
         LocalDate dataNascimento,
-        LocalDateTime criadoEm,
-        LocalDateTime atualizadoEm,
+        StatusPagamento statusPagamento,
         boolean ativo
 ) {
-
 }

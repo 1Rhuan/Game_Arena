@@ -11,7 +11,7 @@ public class ParticipanteMapper {
                 participante.getNomeCompleto(),
                 participante.getApelido(),
                 participante.getEmail(),
-                participante.getStatusPagamento().toString(),
+                participante.getStatusPagamento(),
                 participante.getDataNascimento(),
                 participante.getCriadoEm(),
                 participante.getAtualizadoEm(),

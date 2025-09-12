@@ -1,6 +1,7 @@
 package com.unifucamp.gamearena.participante.service;
 
 import com.unifucamp.gamearena.infra.armazenamento.ArmazenamentoArquivos;
+import com.unifucamp.gamearena.infra.email.EmailSender;
 import com.unifucamp.gamearena.infra.exception.FileStorageException;
 import com.unifucamp.gamearena.infra.exception.UnprocessableEntityException;
 import com.unifucamp.gamearena.comprovante.domain.Comprovante;
@@ -8,6 +9,7 @@ import com.unifucamp.gamearena.participante.domain.Participante;
 import com.unifucamp.gamearena.participante.domain.StatusPagamento;
 import com.unifucamp.gamearena.participante.dto.ParticipanteRequestDTO;
 import com.unifucamp.gamearena.participante.repository.ParticipanteRepository;
+import com.unifucamp.gamearena.shared.EmailTemplateService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -24,10 +26,14 @@ public class CadastrarParticipanteService {
     private static final Logger log = LoggerFactory.getLogger(CadastrarParticipanteService.class);
     private final ParticipanteRepository participanteRepository;
     private final ArmazenamentoArquivos armazenamentoArquivos;
+    private final EmailSender emailSender;
+    private final EmailTemplateService emailTemplateService;
 
-    public CadastrarParticipanteService(ParticipanteRepository participanteRepository, ArmazenamentoArquivos armazenamentoArquivos) {
+    public CadastrarParticipanteService(ParticipanteRepository participanteRepository, ArmazenamentoArquivos armazenamentoArquivos, EmailSender emailSender, EmailTemplateService emailTemplateService) {
         this.participanteRepository = participanteRepository;
         this.armazenamentoArquivos = armazenamentoArquivos;
+        this.emailSender = emailSender;
+        this.emailTemplateService = emailTemplateService;
     }
 
     public void handle(ParticipanteRequestDTO dto, MultipartFile arquivo) {
@@ -68,6 +74,9 @@ public class CadastrarParticipanteService {
             participante.setComprovante(comprovante);
 
             participanteRepository.save(participante);
+            emailSender.sendEmail(participante.getEmail(),
+                    emailTemplateService.gerarMensagemPendente(participante));
+
         } catch (IOException e) {
             throw new FileStorageException(e.getMessage());
         }

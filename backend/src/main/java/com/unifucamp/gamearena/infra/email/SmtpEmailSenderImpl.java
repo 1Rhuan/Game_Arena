@@ -4,8 +4,10 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,16 +19,23 @@ public class SmtpEmailSenderImpl implements EmailSender {
         this.mailSender = mailSender;
     }
 
+    @Value("${app.email.noreply:noreply@teste.com}")
+    private String noreplyEmail;
+
     @Override
-    public void sendEmail(String to, String subject, String text) {
+    @Async
+    public void sendEmail(String destinatario, String texto) {
         try {
-            MimeMessage mensagem = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(mensagem, true, "UTF-8");
-            helper.setTo(to);
-            helper.setSubject(subject);
-            helper.setText(text, true);
-            mailSender.send(mensagem);
-            log.info("Email enviado com sucesso! E-mail: {}", to);
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setTo(destinatario);
+            helper.setFrom(noreplyEmail);
+            helper.setSubject("Atualização da sua inscrição - GameArena");
+            helper.setText(texto, true);
+
+            mailSender.send(message);
+            log.info("Email enviado com sucesso! E-mail: {}", destinatario);
         } catch (MessagingException e) {
             throw new RuntimeException("Erro ao enviar e-mail de confirmação de pagamento", e);
         }

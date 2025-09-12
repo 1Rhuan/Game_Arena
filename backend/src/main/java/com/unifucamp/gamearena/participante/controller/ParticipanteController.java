@@ -5,6 +5,8 @@ import com.unifucamp.gamearena.comprovante.dto.ComprovanteResponseDTO;
 import com.unifucamp.gamearena.comprovante.service.DownloadComprovanteService;
 import com.unifucamp.gamearena.participante.dto.ParticipanteRequestDTO;
 import com.unifucamp.gamearena.participante.dto.ParticipanteResponseDTO;
+import com.unifucamp.gamearena.participante.dto.ParticipanteUpdateDTO;
+import com.unifucamp.gamearena.participante.service.AtualizarParticipanteService;
 import com.unifucamp.gamearena.participante.service.BuscarParticipanteService;
 import com.unifucamp.gamearena.participante.service.CadastrarParticipanteService;
 import org.springframework.data.domain.Page;
@@ -23,11 +25,13 @@ public class ParticipanteController {
     private final CadastrarParticipanteService cadastrarParticipanteService;
     private final BuscarParticipanteService buscarParticipanteService;
     private final DownloadComprovanteService  downloadComprovanteService;
+    private final AtualizarParticipanteService atualizarParticipanteService;
 
-    public ParticipanteController(CadastrarParticipanteService cadastrarParticipanteService, BuscarParticipanteService buscarParticipanteService, DownloadComprovanteService downloadComprovanteService) {
+    public ParticipanteController(CadastrarParticipanteService cadastrarParticipanteService, BuscarParticipanteService buscarParticipanteService, DownloadComprovanteService downloadComprovanteService, AtualizarParticipanteService atualizarParticipanteService) {
         this.cadastrarParticipanteService = cadastrarParticipanteService;
         this.buscarParticipanteService = buscarParticipanteService;
         this.downloadComprovanteService = downloadComprovanteService;
+        this.atualizarParticipanteService = atualizarParticipanteService;
     }
 
     @PostMapping
@@ -60,5 +64,13 @@ public class ParticipanteController {
                 .header(HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename=\"" + comprovante.nomeOriginal() + "\"")
                 .body(comprovante.arquivo());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ParticipanteResponseDTO> atualizar(
+            @PathVariable Long id,
+            @RequestBody ParticipanteUpdateDTO dto
+    ) {
+        return ResponseEntity.ok(atualizarParticipanteService.handle(id, dto));
     }
 }
