@@ -1,14 +1,14 @@
 package com.unifucamp.gamearena.usuario.domain;
 
+import com.unifucamp.gamearena.role.domain.Role;
 import jakarta.persistence.*;
 
-import java.util.List;
-
-import com.unifucamp.gamearena.role.domain.Role;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "users")
-public class usuario {
+@Table(name = "tb_usuario")
+public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -20,13 +20,15 @@ public class usuario {
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List<Role> roles;
+    @JoinTable(name = "tb_usuario_role",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
-    public usuario() {
+    public Usuario() {
     }
 
-    public usuario(String email, String password, List<Role> roles) {
+    public Usuario(String email, String password, Set<Role> roles) {
         this.email = email;
         this.password = password;
         this.roles = roles;
@@ -52,11 +54,11 @@ public class usuario {
         this.password = password;
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 }
