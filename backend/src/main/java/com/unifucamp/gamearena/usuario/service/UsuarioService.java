@@ -1,10 +1,10 @@
-package com.unifucamp.gamearena.usuario.domain;
+package com.unifucamp.gamearena.usuario.service;
 
 import com.unifucamp.gamearena.infra.exception.ConflictException;
 import com.unifucamp.gamearena.infra.exception.NotFoundException;
-import com.unifucamp.gamearena.role.domain.Role;
-import com.unifucamp.gamearena.role.domain.RoleService;
-import com.unifucamp.gamearena.usuario.UsuarioRepository;
+import com.unifucamp.gamearena.role.RoleService;
+import com.unifucamp.gamearena.usuario.domain.Usuario;
+import com.unifucamp.gamearena.usuario.repository.UsuarioRepository;
 import com.unifucamp.gamearena.usuario.dto.CriacaoUsuarioDto;
 import com.unifucamp.gamearena.usuario.dto.RespostaUsuarioDto;
 import org.slf4j.Logger;
@@ -33,7 +33,7 @@ public class UsuarioService {
 
     public void createUser(CriacaoUsuarioDto criacaoDeUsuarioDto) {
 
-        Optional<usuario> user = usuarioRepository.findByEmail(criacaoDeUsuarioDto.email());
+        Optional<Usuario> user = usuarioRepository.findByEmail(criacaoDeUsuarioDto.email());
 
         if (user.isPresent()) {
             log.warn("Falha na criação de usuário. Email já em uso");
@@ -41,22 +41,13 @@ public class UsuarioService {
         }
 
         String password = passwordEncoder.encode(criacaoDeUsuarioDto.password());
-        Role role = roleService.findRole(criacaoDeUsuarioDto.role());
-
-        usuario newUsuario = new usuario(
-                criacaoDeUsuarioDto.email(),
-                password,
-                List.of(role));
-
-        log.info("Novo usuário criado.");
-        usuarioRepository.save(newUsuario);
     }
 
     public List<RespostaUsuarioDto> listUsers() {
 
-        List<usuario> usuarios = usuarioRepository.findAll();
+        List<Usuario> Usuarios = usuarioRepository.findAll();
 
-        return usuarios.stream()
+        return Usuarios.stream()
                 .map(usuario -> new RespostaUsuarioDto(
                         usuario.getId(),
                         usuario.getEmail()))
@@ -67,7 +58,7 @@ public class UsuarioService {
 
         log.warn("Solicitação de exclusão ID: {}", id);
 
-        Optional<usuario> user = usuarioRepository.findById(id);
+        Optional<Usuario> user = usuarioRepository.findById(id);
 
         if (user.isEmpty()) {
             log.warn("Usuário inválido.");

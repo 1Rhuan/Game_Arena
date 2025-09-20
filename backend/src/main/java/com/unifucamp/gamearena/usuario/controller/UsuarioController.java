@@ -1,6 +1,6 @@
-package com.unifucamp.gamearena.usuario;
+package com.unifucamp.gamearena.usuario.controller;
 
-import com.unifucamp.gamearena.usuario.domain.UsuarioService;
+import com.unifucamp.gamearena.usuario.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
