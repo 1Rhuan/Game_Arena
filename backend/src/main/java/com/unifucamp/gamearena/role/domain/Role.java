@@ -1,39 +1,48 @@
 package com.unifucamp.gamearena.role.domain;
 
+import com.unifucamp.gamearena.permissoes.Permissoes;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
-@Table(name = "roles")
+@Table(name = "tb_role")
 public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private Roles name;
+    private String name;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "tb_role_permissoes",
+            joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "permissoes_id"))
+    private Set<Permissoes> permissoes = new HashSet<Permissoes>();
 
     public Role() {
     }
 
-    public Role(Long id, Roles name) {
-        this.id = id;
+    public Role(String name, Set<Permissoes> permissoes) {
         this.name = name;
+        this.permissoes = permissoes;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Roles getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(Roles name) {
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Permissoes> getPermissoes() {
+        return permissoes;
+    }
+
+    public void setPermissoes(Set<Permissoes> permissoes) {
+        this.permissoes = permissoes;
     }
 }
