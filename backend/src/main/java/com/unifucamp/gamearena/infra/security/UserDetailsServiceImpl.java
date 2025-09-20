@@ -1,7 +1,7 @@
 package com.unifucamp.gamearena.infra.security;
 
-import com.unifucamp.gamearena.usuario.UsuarioRepository;
-import com.unifucamp.gamearena.usuario.domain.usuario;
+import com.unifucamp.gamearena.usuario.repository.UsuarioRepository;
+import com.unifucamp.gamearena.usuario.domain.Usuario;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,7 +18,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        usuario usuario = this.repository.findByEmail(username)
+        Usuario usuario = this.repository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado."));
         return new UserDetailsImpl(usuario);
     }
