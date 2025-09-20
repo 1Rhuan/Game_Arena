@@ -33,12 +33,16 @@ public class Permissoes {
     }
 
     public static class Values {
-       public static final String PART_LER = "participante:ler";
-       public static final String PART_EDIT = "participante:editar";
-       public static final String PART_APROVAR = "participante:aprovar";
-       public static final String PART_REJEITAR = "participante:rejeitar";
-       public static final String PART_DESATIVAR = "participante:desativar";
-       public static final String PART_APROVAR_TODOS = "participante:aprovar:todos";
-       public static final String PART_REJEITAR_TODOS = "participante:rejeitar:todos";
+       public static final String PARTICIPANTE_LER = "participante:ler";
+       public static final String PARTICIPANTE_EDITAR = "participante:editar";
+       public static final String PARTICIPANTE_APROVAR = "participante:aprovar";
+       public static final String PARTICIPANTE_REJEITAR = "participante:rejeitar";
+       public static final String PARTICIPANTE_DESATIVAR = "participante:desativar";
+       public static final String PARTICIPANTE_APROVAR_TODOS = "participante:aprovar:todos";
+       public static final String PARTICIPANTE_REJEITAR_TODOS = "participante:rejeitar:todos";
+
+       public static final String USUARIO_CRIAR = "usuario:criar";
+       public static final String USUARIO_EDITAR = "usuario:editar";
+       public static final String USUARIO_DELETAR = "usuario:deletar";
     }
 }
